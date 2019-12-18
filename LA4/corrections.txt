@@ -1,0 +1,8 @@
+3.return type mein square brackets mein expression nahi aana chaye
+index ko null
+a.b=a[3];
+b()[].c;
+if else
+while add
+for correct
+

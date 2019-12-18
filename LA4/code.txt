@@ -1,0 +1,144 @@
+import re
+
+# regEx function for identifier
+def identifier(test_string):
+    pattern = '([_][A-Za-z0-9_]+)|([A-Za-z][A-Za-z0-9]*)'
+
+    #test_string = input('enter variable: ')
+
+    result = re.match(pattern, test_string)
+    if result:
+            #print("Search successful.")
+            return True
+    else:
+            #print("Search unsuccessful.")
+            return False
+
+
+print(identifier('9'))
+
+def integerConst(digit):
+    pattern = '[+-]?[0-9]+'
+    
+    if(re.fullmatch(pattern,digit)):
+        return True
+    else:
+        return False
+
+
+
+print(integerConst('9a'))
+
+Dictionary = {}
+listkeys = []
+listValues = []
+
+def fileRead():
+
+   
+    l = []
+    with open("la.txt") as f:
+        for line in f:
+            value=line.split(",")
+           # value=line.strip('\n')
+            l.append(value)
+                 
+    print(l)   
+
+   
+    for Index in l:
+        print(Index[0])
+        ind=l.index(Index)
+        
+        print(ind)
+        
+        #print(Index[1])
+        #length = len(Index)
+        #print(length)
+        #Dictionary = {Index: l[i] for i in range(1, len(l))}
+        #Dictionary={Index[0]: Index[1:] for i in Index}
+''''
+       for i in Index:
+            indexkaindex=Index.index(i)
+            print(indexkaindex)
+            if(indexkaindex==0):
+                inpkeys=i
+                listkeys.append(inpkeys)
+            else:
+                inpValues=i
+                listValues.append(inpValues)    
+
+            #i+=1
+            
+
+    print(listkeys)
+    print(listValues)
+    #    for i in range(1,len(Index)):
+     #   print(Index[i])
+    #print(Dictionary)
+
+
+
+
+#fileRead()
+'''''
+
+keywords = {
+    'DT' :['int', 'decimal', 'var', 'string', 'char', 'bool'],
+    'AOP': ['=' , '+=' , '-=' , '/=' , '%=' , '*='],
+    'Terminator':[';'],
+    'For':['for','foreach'],
+    'in': ['in'],
+    'if':['if'],
+    'else':['else'],
+    'elif':['elif'],
+    'Break': ['break', 'continue'],
+    'Return': ['goback'],
+    'Class': ['class'],
+    'Public': ['public'],
+    'Private': ['private', 'protected'],
+    'Void':[ 'void', 'static', 'main','abstract'],
+    'MathOperators':[ '+', '-', '/', '*', '%'],
+    'RelationalOperators': ['<' , '>' , '<=' , '>=' , '==' , '!='],
+    'LogicalOperators': ['and', 'or', 'not']}
+
+
+#code part
+programArray=[]
+with open("program.txt") as f:
+  while True:
+    c = f.read(1)
+    programArray.append(c)
+    #if not c:
+      #print ("End of file")
+     # break
+    #if(c=='\n'):
+       # print('change line')
+    #print ("Read a character:", c)
+    print(c)
+
+
+lineNumber = 0
+def matching(ProgArray):
+    word = ""
+    for character in ProgArray:
+        if(character == ' ' or character == '\n' or character == ',' ):
+            start = ProgArray.index(character)
+            #print(ProgArray.index(character))
+            ProgArray = ProgArray[start+1:]
+            #tokenGenerate(word)
+            #word = ''
+            #print(ProgArray)
+
+        else:
+            word += character
+        #tokenGenerate(word)
+            print(word)
+        
+
+        
+
+matching(programArray)
+
+#def tokenGenerate(word):
+ #   print("Aya token: " + word)

@@ -1,0 +1,121 @@
+
+=====Context Free Grammer
+
+----Start------
+<Start> -> <SST2><S> | Null
+
+-----Data type initialization-------
+<DT2> -> DT | ID
+<DT3> -> <DT2> | Null
+
+<CONST> -> IntConstant | stringConstant |decimalConstant
+<DATA> -> ID | <CONST>
+<terminator> -> ;|LC
+
+-----------------------------------DECLARATION-----------------------------------
+
+//<Decl> -> <DT2>ID<list><terminator>
+<Decl2> -> void ID(<args>)<funcBody><terminator>
+<Decl3> -> <static><DT2>ID<terminator> 
+
+<list> -> (<args>)<funcBody> | <list1><list2>
+<list1> -> [index] |Null
+<list2> -> ,ID<list1><list2> |  = <ARRAYBODY> | Null
+<list3> -> <list1><list2>
+
+
+<ARRAYBODY> -> { <OE> <ARRAYBODY2>}
+<ARRAYBODY2> -> ,<OE><ARRAYBODY2>|NULL
+
+<args> -> <DT2><ID2><args2> | Null
+<ID2> -> ID | Null
+<args2> -> ,<args><args2> | Null
+
+---------------------------------ASSIGNMENT-----------------------------------------------------------
+
+<static>-> static | Null 
+<Assignment_st2> -> this.ID <func1><aur><AOP><OE>
+
+
+<func1> -> <params><aur> | Null
+<aur> -> [<index>]<aur2> | .ID<aur> | Null
+<aur2> -> Null | .ID<aur> 
+<aur3> -> [<index>].ID<aur> | .ID<aur> | Null
+
+---------------------------BODY--------------------------------------
+<Body> -> {<MST>}
+<MST> -> <SST><terminator><MST>| Null 
+<funcBody> -> {<MST2>}
+<MST2> -> <SST2> <terminator> <MST2> | Null 
+<SST> -> <DAfunc>| <for_st>|<for_each>  | <if_st> |  <go_back> | <break> | <object>
+<SST2> ->   <DA> | <for_st>|<for_each>  | <if_st> | <go_back> | <break> | <object>  | <class>
+
+
+<for_st> -> for <for1>
+<for1> -> (<OE>,<OE>,<OE>)<Body>| (<condition>)<Body>
+
+<foreach>-> forEach ID in ID <body>
+
+<if_st> -> if(<AOE>)<Body><else>
+<else> -> <elif>| else<body> | Null
+<elif> -> elif(<AOE>)<body><else>
+
+//removng left factoruing for SST
+<DA> -> ID<DA1><terminator> | DT ID<list><terminator> | <Decl2> | <Decl3> |<Assignment_st2>
+<DA1> -> ID<list> | <func1><AOP><OE> | <aur3><params>
+
+//DA for function body
+<DAfunc> -> ID<DAfunc1><terminator> | DT ID<list3><terminator> | <Decl3> | <Assignment_st2>
+<DAfunc1> -> ID<list3> | <func1><AOP><OE> | <aur3><params>
+
+
+<params> -> (<OE><params2>)
+<params2>-> ,<OE><params2> | Null
+
+
+
+//object
+<object> -> var ID = {<objectbody>} <terminator>
+<objectbody> -> ID = <params2> <objectbody2>
+<objectbody2> ->  ,<objectbody> | Null
+
+
+//Class
+<class> -> class ID<BaseClassName>{<ClassBody>}
+<BaseClassName> -> (ID<BaseClassName2>) |  Null
+<BaseClassName2> -> ,ID<BaseClassName2 | Null
+<ClassBody> -> <AM>: <ClassBody2><ClassBody>
+<AM> -> Public | Private | Protected
+<ClassBody2> -> <methods> | <attributes> | Null
+<attributes>-> static <DT2> ID=<OE> terminator <ClassBody2> | <DT2>ID<attributes2><attributes3> terminator <CB2>
+<attributes2> -> [index]|Null
+<attributes3> -> =<OE> | Null
+
+<methods> -> <static><RT>ID(<args>)<funcBody><ClassBody2> | virtual<RT>ID(<args>)=0<ClassBody2> <constructor>
+<RT>-><DT2>|void
+<static> -> static|Null
+<constructor> -> ID(<args>){<constructorbody>}
+<constructorbody> -> <DAfunc><terminator><constructorbody>  | Null
+
+
+//--expression declaration//
+
+<OE> -> <AE><OE'>
+<OE'>->OR<AE><OE'> | Null
+<AE> -> <EE><AE'>
+<AE'> -> AND<EE><AE'>|Null
+<EE> -> <RE><EE'>
+<EE'> -> EQUALITY<RE><EE'>|Null
+<RE> -> <E><RE'>
+<RE'> -> ROP<E><RE'>|Null
+<E>-><T><E'>
+<E'> -> ADDITIVE <T><E'>|Null
+<T> -> <F><T'>
+<T'> -> MULTIPLICATIVE <F><T'>|Null
+<F> -> <IDF> | <CONST> | (<OE>) | NOT <F> | this.<IDF>
+
+
+<IDF> -> ID<IDF2>
+<IDF2> -> .<IDF3> | [index]<dot> | <params> | Null
+<IDF3> -> ID<IDF2>
+<dot> -> .ID<IDF2> | Null
